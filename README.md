@@ -1,0 +1,1 @@
+after .embuild got created and the error was 'riscv32-esp-elf-gcc: ldproxy: ld missing' run and evaluate 'python .embuild/espressif/esp-idf/v5.3.2/tools/idf_tools.py export --format shell 2>/dev/null' to add the esp-idf tools to the path
