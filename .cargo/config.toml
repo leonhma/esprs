@@ -4,7 +4,7 @@ target = "riscv32imac-esp-espidf"
 [target.riscv32imac-esp-espidf]
 linker = "ldproxy"
 runner = "espflash flash --monitor"
-rustflags = [ "--cfg",  "espidf_time64", "-Clink-arg=-fuse-ld=lld" ]
+rustflags = [ "--cfg",  "espidf_time64", "-C", "link-arg=--verbose" ]
 
 [unstable]
 build-std = ["std", "panic_abort"]

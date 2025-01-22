@@ -54,7 +54,7 @@
                     components = [ "rustc" "rust-src" "cargo" "clippy" "rustfmt" "rust-analyzer" ];
                   };
 
-                  env = rec{
+                  env = rec {
                     # LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
                     # COMPILER_PATH = "${pkgs.lld}/bin";
                     # requires nix-ld to be enabled system-wide
