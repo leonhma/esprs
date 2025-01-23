@@ -50,7 +50,6 @@
                   languages.rust = {
                     enable = true;
                     channel = "nightly";
-                    # targets = ["riscv32imac-esp-espidf"];
                     components = [ "rustc" "rust-src" "cargo" "clippy" "rustfmt" "rust-analyzer" ];
                   };
 
@@ -60,18 +59,10 @@
                     # requires nix-ld to be enabled system-wide
                     NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
                     NIX_LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (with pkgs; [
-                      # libllvm
-                      # libclang
-                      # llvmPackages.libcxxClang
-                      # gcc
-                      # stdenv.cc
-                      # stdenv.cc.cc those are apparently not needed
-                      # llvmPackages.bintools same --^
-                      # zlib
-                      # libxml2
+                      stdenv.cc.cc # provided by system but here again for clarity
                       systemd  # required for openocd-esp32 (libudev)
                       libusb1  # required for openocd-esp32
-                      # glibc.static
+                      # llvmPackages.bintools
                     ])}";
                     LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath (with pkgs; [
                       stdenv.cc.cc  # libclang depends on it
