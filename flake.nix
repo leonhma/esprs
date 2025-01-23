@@ -30,39 +30,26 @@
               modules = [
                 {
                   packages = with pkgs; [
-                    openssl
-                    # libllvm
-                    # clang  # needed for idf_tools.py
-                    # llvmPackages.bintools  # used for lld (not ld)
-                    # glibc.static
                     ldproxy  # used by cargo / esp-ídf
-                    # pkg-config  # apparently used to find libs
-                    # ninja    # needed for idf_tools.py
-                    # ldproxy
-                    # glibc.static
                   ];
 
                   languages.python = {
                     enable = true;
-                    # venv.enable = true;
                   };
 
                   languages.rust = {
                     enable = true;
                     channel = "nightly";
                     components = [ "rustc" "rust-src" "cargo" "clippy" "rustfmt" "rust-analyzer" ];
+                    mold.enable = false;
                   };
 
-                  env = rec {
-                    # LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
-                    # COMPILER_PATH = "${pkgs.lld}/bin";
-                    # requires nix-ld to be enabled system-wide
+                  env = {
                     NIX_LD = pkgs.lib.fileContents "${pkgs.stdenv.cc}/nix-support/dynamic-linker";
                     NIX_LD_LIBRARY_PATH="${pkgs.lib.makeLibraryPath (with pkgs; [
                       stdenv.cc.cc # provided by system but here again for clarity
                       systemd  # required for openocd-esp32 (libudev)
                       libusb1  # required for openocd-esp32
-                      # llvmPackages.bintools
                     ])}";
                     LD_LIBRARY_PATH = "${pkgs.lib.makeLibraryPath (with pkgs; [
                       stdenv.cc.cc  # libclang depends on it
@@ -70,10 +57,6 @@
                       libxml2  # needed by libclang
                     ])}";
                   };
-
-                  # enterShell = ''
-                  #   cargo install ldproxy
-                  # '';
 
                   # currently broken
                   # pre-commit.hooks = {
